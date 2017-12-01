@@ -12,7 +12,7 @@ return [0, 1].
 
 
 My Solution: time complexity: O(n^2)
-(Brute method)
+(Brute method暴力破解法)
 
 #include<vector>
 
@@ -41,6 +41,7 @@ public:
 Others' better solutions:
 Accepted C++ O(n) Solution
 
+//利用哈希表（Hash Table）
 class Solution{
 public:
 vector<int> twoSum(vector<int> &numbers, int target)
