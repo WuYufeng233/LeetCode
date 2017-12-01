@@ -33,6 +33,8 @@ public:
 	}	
 };
 
+
+
 Others' better solutions:
 Accepted C++ O(n) Solution
 
