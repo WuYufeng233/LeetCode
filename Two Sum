@@ -38,6 +38,8 @@ public:
 Others' better solutions:
 Accepted C++ O(n) Solution
 
+class Solution{
+public:
 vector<int> twoSum(vector<int> &numbers, int target)
 {
     //Key is the number and value is its index in the vector.
@@ -49,8 +51,8 @@ vector<int> twoSum(vector<int> &numbers, int target)
             //if numberToFind is found in map, return them
 		if (hash.find(numberToFind) != hash.end()) {
                     //+1 because indices are NOT zero based
-			result.push_back(hash[numberToFind] + 1);
-			result.push_back(i + 1);			
+			result.push_back(hash[numberToFind]);	//作者本来这里是返回下标加一的，我改为下标了
+			result.push_back(i);			//作者本来这里是返回下标加一的，我改为下标了
 			return result;
 		}
 
@@ -59,3 +61,4 @@ vector<int> twoSum(vector<int> &numbers, int target)
 	}
 	return result;
 }
+};
