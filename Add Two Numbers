@@ -1,0 +1,102 @@
+You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
+
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+Example
+
+Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
+Output: 7 -> 0 -> 8
+Explanation: 342 + 465 = 807.
+
+My Solution:
+
+#include<iostream>
+using namespace std;
+
+
+//Definition for singly-linked list.
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x)
+	{
+		val=x;
+		next=NULL;
+	}
+};
+
+class Solution {
+public:
+ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+	ListNode preHead(0);  //头指针的值为空，返回结果链表时去掉头指针
+	ListNode *curr=&preHead;  //当前指针 
+	int carry=0,f1=0,f2=0,totalOfDigit=0;   //carry进位，f1、f2分别是来自链表一和二的同一位的val，totalOfDigit是结果链表的某一位
+	while(l1||l2||carry){
+		if(l1!=NULL){
+			f1=l1->val;
+			l1=l1->next;
+		}
+		else
+			f1=0;
+      
+		if(l2!=NULL){
+			f2=l2->val;
+			l2=l2->next;
+		}
+		else
+			f2=0;
+ 
+    //计算某一位的和并用作后面添加新节点
+		totalOfDigit=f1+f2+carry;
+		carry=(totalOfDigit)/10;
+		totalOfDigit%=10;
+		
+    //创建新节点，并移动curr指针
+		curr->next=new ListNode(totalOfDigit);
+		curr=curr->next;
+	}
+	return preHead.next;  //去掉链表的头节点再返回剩下的链表
+} 
+};
+
+
+int main()
+{
+	ListNode n(2);
+	n.next=new ListNode(4);
+	n.next->next=new ListNode(3);//next是指针，当需要访问下一个节点时要用->访问符，不能用.访问 
+	cout<<n.val<<n.next->val<<n.next->next->val<<endl;  //hardcode输出链表的内容
+	
+	ListNode m(5);
+	m.next=new ListNode(6);
+	m.next->next=new ListNode(4);
+	cout<<m.val<<m.next->val<<m.next->next->val<<endl;     //hardcode输出链表的内容
+	
+	Solution s;
+	ListNode* h=s.addTwoNumbers(&n,&m);
+  
+  //第一种输出方式：hardcode
+	cout<<h->val<<h->next->val<<h->next->next->val<<endl;
+  
+  //第二种输出方式（这个方式好一点）：循环
+	while(h!=NULL)   //最好用h!=NULL,别用h->next!=NULL判断，这样可判断该节点本身，
+	{                //看节点的下一个节点要在循环后面再加一句读最后一个节点，这样容易出错，造成溢出 
+		cout<<h->val;
+		h=h->next;
+	}
+}
+
+Other's better solution：
+ListNode *addTwoNumbers(ListNode *l1, ListNode *l2) {
+    ListNode preHead(0), *p = &preHead;
+    int extra = 0;
+    while (l1 || l2 || extra) {
+        int sum = (l1 ? l1->val : 0) + (l2 ? l2->val : 0) + extra;
+        extra = sum / 10;
+        p->next = new ListNode(sum % 10);
+        p = p->next;
+        l1 = l1 ? l1->next : l1;
+        l2 = l2 ? l2->next : l2;
+    }
+    return preHead.next;
+}
