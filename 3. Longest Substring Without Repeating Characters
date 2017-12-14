@@ -1,0 +1,70 @@
+Given a string, find the length of the longest substring without repeating characters.
+
+Examples:
+
+Given "abcabcbb", the answer is "abc", which the length is 3.
+
+Given "bbbbb", the answer is "b", with the length of 1.
+
+Given "pwwkew", the answer is "wke", with the length of 3. Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
+
+My Solution:
+/*这个问题需要注意只需要找出最长字串的长度，而不是最长字串，一开始我思考时以为找出最长字串更重要，然后就走错了方向（找出最长字串的实现更难），
+ *后来发现只需要找出最长字串的长度，问题就变得简单点了，只需要一个变量记住最长字串的长度就行。
+ */
+#include<iostream>
+#include<string.h>//用dev做时<string>会报错，可能跟dev编译器有关
+using namespace std;
+
+class Solution {
+public:
+    static int lengthOfLongestSubstring(string s) {
+    int hash[128];  利用ASCII码表中的字符的编号作为hash数组的下标，巧妙！
+	memset(hash,-1,sizeof(hash));   //用menset函数（头文件是<string.h>或<string>)把hash数组所有元素初始化-1
+	int prev=0,maxLen=0;    //prev表示当前子串的首字符的下标
+	for(int i=0;i<s.length();++i)
+	{
+		if(hash[s[i]]!=-1)    //hash数组中保存的是子串中的各位的下标
+		{
+			if(hash[s[i]]>=prev)
+			{
+				prev=hash[s[i]]+1;
+			}
+			hash[s[i]]=i;
+		}
+		else{
+			hash[s[i]]=i;
+		}
+		maxLen=(maxLen>=i-prev+1)?maxLen:i-prev+1;  //每次循环更新最长长度
+	
+	}
+	return maxLen;
+    }
+};
+
+int main()
+{
+	string str="abcdabefgh";
+	cout<<Solution::lengthOfLongestSubstring(str)<<endl;
+}
+
+Other's better solution:
+/*这个方法的思想基本上和上面我的方法差不多，
+ *它的代码比较短
+ */
+ #include<vector>
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        vector<int> dict(256, -1);
+        int maxLen = 0, start = -1;
+        for (int i = 0; i != s.length(); i++) {
+            if (dict[s[i]] > start)
+                start = dict[s[i]];
+            dict[s[i]] = i;
+            maxLen = max(maxLen, i - start);
+        }
+        return maxLen;
+    }
+    }
+};
