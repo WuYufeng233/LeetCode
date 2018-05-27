@@ -11,9 +11,12 @@ return [0, 1].
 
 
 
-My Solution: time complexity: O(n^2)
-(Brute method暴力破解法)
+My Solution: 
 
+/** 法一
+  *time complexity: O(n^2)
+  *(Brute method暴力破解法)
+  */
 #include<vector>
 
 class Solution {
@@ -34,6 +37,65 @@ public:
     	}
         return results;
 	}	
+};
+
+/** 法二
+  * time complexity: O(nlogn+logn+n)=O(nlogn)
+  * 先排序，后遍历排序后的数组，二分查找target与当前元素的差，再回原数组查找下标位置。
+  */
+#include<vector>
+#include<algorithm> 
+using namespace std;
+
+class Solution {
+public:
+	vector<int> twoSum(vector<int>& nums, int target) {
+		vector<int> copy = nums;
+		vector<int> result;
+		int length = nums.size();	
+		int index;
+
+		sort(copy.begin(), copy.end());
+		for (int i = 0; i<length; i++) {
+			int remainder = target - copy[i];
+			
+			if ((index = binarySearch(copy, i+1, length, remainder)) != -1) {
+				// 找到存在的数后去原数组找下标
+				for (int j = 0; j < length; j++) {
+					if (nums[j] == copy[i]) {
+						result.push_back(j);
+						continue;
+					}
+					if (nums[j] == copy[index]) {
+						result.push_back(j);
+						continue;
+					}
+					if (result.size() == 2)
+						break;
+				}
+				break;
+			}
+		}
+		return result;
+	}
+
+	int binarySearch(vector<int>& nums, int first, int length, int key) {
+		int low = first, high = length, middle = 0;
+		while (low<high) {
+			middle = (low + high) / 2;
+			if (key == nums[middle]) {
+				return middle;
+			}
+			else if (key<nums[middle]) {
+				high = middle;
+			}
+			else if (key>nums[middle]) {
+				low = middle + 1;
+			}
+		}
+		return -1;
+	}
+
 };
 
 
