@@ -1,0 +1,26 @@
+/**
+ * @param {number} x
+ * @return {number}
+ */
+var reverse = function(x) {
+    const MAX = 2147483647
+    const MIN = -2147483648
+    let rst = 0
+    // 反转除原数最高位的其他位
+    while(parseInt(x / 10)){
+        let remain = x % 10
+        rst = rst * 10 + remain
+        x = parseInt(x / 10)
+    }
+    
+    // 处理最高位，判断是否能加上最高位到逆转数的个位上
+    if(rst >= 0 && rst <= parseInt(MAX / 10)){
+        rst = rst * 10 + x
+    } else if (rst < 0 && rst >= parseInt(MIN / 10)){
+        rst = rst * 10 + x
+    } else {
+        rst = 0
+    }
+    
+    return rst
+};
