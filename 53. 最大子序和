@@ -1,0 +1,40 @@
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+/**
+ * 复杂度: O(n)
+ */
+var maxSubArray = function(nums) {
+    let max = nums[0]   // 记录当前最大子序和
+    let sum = nums[0]   // 自增至负增益则从下一个数重新开始算
+    for(let i = 1, len = nums.length; i < len; i++){
+        if(sum >= 0){
+            sum += nums[i]
+        } else {
+            sum = nums[i]
+        }
+        max = Math.max(max, sum)
+    }
+    return max
+};
+
+/**
+ * 动态规划
+ * f(n): 表示以n为最后一个数的连续子数组的最大和
+ * 状态转移方程: f(n) = max{n, f(n - 1) + n}
+ * 最后返回的是 f(1...n) 中最大的值, 因为f(n)表示的是以n为最后一个数的连续子数组的最大和
+ * 复杂度: O(2n) = O(n)
+ */
+var maxSubArray = function(nums) {
+    const table = [nums[0]]
+    const len = nums.length
+    let max = nums[0]
+    for(let i = 1; i < len; i++){
+        table[i] = Math.max(nums[i], table[i - 1] + nums[i])
+        max = Math.max(max, table[i])
+    }
+    return max
+};
+
+/** 上面两种方法的时间和空间效率几乎一样 */
