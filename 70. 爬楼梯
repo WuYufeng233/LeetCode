@@ -1,0 +1,16 @@
+/**
+ * @param {number} n
+ * @return {number}
+ */
+/**
+ * 状态转移方程: f(n) = f(n - 1) + f(n - 2)
+ */
+var climbStairs = function(n) {
+    const table = [0, 1, 2]
+    // 计算状态数组
+    for(let i = 3; i <= n; i++){
+        table[i] = table[i - 1] + table[i - 2]
+    }
+    
+    return table[n]
+};
