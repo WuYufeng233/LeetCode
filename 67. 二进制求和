@@ -1,0 +1,30 @@
+/**
+ * @param {string} a
+ * @param {string} b
+ * @return {string}
+ */
+var addBinary = function(a, b) {
+  const aLen = a.length
+  const bLen = b.length
+  const diff = aLen - bLen
+  let maxLen = aLen
+  // 在较短的‘数’前补上前导零
+  if(diff > 0){
+    b = new Array(diff + 1).join('0') +b
+  } else if(diff < 0){
+    maxLen = bLen
+    a = new Array(1 - diff).join('0') + a
+  }
+  let carry = 0
+  let result = ''
+  // 对应位相加得到结果
+  for(let i = maxLen - 1; i >= 0; i--){
+    let sum = +a[i] + +b[i] + carry
+    carry = parseInt(sum / 2)
+    result = sum % 2 + result 
+  }
+  if(carry === 1){
+    result = 1 + result
+  }
+  return result
+};
