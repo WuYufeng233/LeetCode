@@ -1,0 +1,31 @@
+/**
+ * @param {number} m
+ * @param {number} n
+ * @return {number}
+ */
+/**
+ * f(x, y): 到达第x列、第y行的位置的路径数
+ * 状态转移方程: f(x, y) = f(x - 1, y) + f(x, y - 1)
+ * 复杂度：m行n列：O(mn)
+ */
+var uniquePaths = function(m, n) {
+  const table = []
+  for(let i = 0; i < m; i++){
+    table[i] = new Array(n)
+  }
+  //初始条件和边界情况
+  for(let i = 0; i < m; i++){
+    table[i][0] = 1
+  }
+  for(let j = 1; j < n; j++){
+    table[0][j] = 1
+  }
+  // 根据状态转移方程计算状态表
+  for(let i = 1; i < m; i++){
+    for(let j = 1; j < n; j++){
+      table[i][j] = table[i - 1][j] + table[i][j - 1]
+    }
+  }
+  
+  return table[m - 1][n - 1]
+};
