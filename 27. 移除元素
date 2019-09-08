@@ -1,0 +1,43 @@
+var swap = function(arr, from, to){
+  [arr[from], arr[to]] = [arr[to], arr[from]]
+}
+
+/**
+ * @param {number[]} nums
+ * @param {number} val
+ * @return {number}
+ */
+/**
+ * 两边夹中间
+ * 若nums中值为val的数较多，则交换次数比快慢指针要少
+ * 时间复杂度：O(n)
+ */
+var removeElement1 = function(nums, val) {
+  
+  const len = nums.length
+  let i = -1, j = len
+  while(i < j){
+    while(i < j && nums[++i] !== val);
+    while(i < j && nums[--j] === val);
+    if(i < j){
+      swap(nums, i, j)
+    }
+  }
+  return i
+}
+
+/**
+ * 快慢指针
+ * 若nums中值为val的数较少，交换次数则较少
+ */
+var removeElement2 = function(nums, val) {
+  // 快指针和慢指针
+  let i = 0
+  for(let j = 0; j < nums.length; j++){
+    if(nums[j] !== val){
+      nums[i] = nums[j]
+      i++
+    }
+  }
+  return i
+}
