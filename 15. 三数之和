@@ -1,0 +1,50 @@
+
+/**
+ * 快速排序：使用js自带的sort方法比自己实现的效率要高点，V8的sort方法经过了多种优化。
+ * 双指针法：降低复杂度；
+ * 复杂度：由O(n^3)降到O(n^2)
+ */
+/**
+ * 算法题尽量少开新数组，会增加内存开销；尽量在原数组进行改动，减少内存开销
+ */
+/**
+ * 
+ * @param {number[]} nums 
+ * @returns {number[]} result
+ */
+var threeSum = function(nums) {
+  // 使用js自带的sort效率比自己写的要高
+  nums.sort((a, b) => a - b)
+  const result =  []
+
+  for(let k = 0, len = nums.length; k < len - 2; k++){
+    // 最小的数大于零，说明后面没必要继续找了
+    if(nums[k] > 0)
+      break
+
+    // 当前k和上一个k的值相等，可以跳过
+    if(k > 0 && nums[k] === nums[k - 1]){
+      continue
+    }
+    let i = k + 1, j = len - 1
+    while(i < j){
+      let sum = nums[i] + nums[j] + nums[k]
+      if(sum > 0){
+        j--
+        continue
+      }
+      if(sum < 0){
+        i++
+        continue
+      }
+      if(sum === 0){
+        result.push([nums[k], nums[i], nums[j]])
+        // 跳过相同值
+        while(i < j && nums[i] === nums[++i]);
+        while(i < j && nums[j] === nums[--j]);
+      }
+    }
+  }
+
+  return result
+}
